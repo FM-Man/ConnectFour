@@ -39,13 +39,14 @@ public class idc {
 
 
 
-        frame = new JFrame("Fuck me dead");
+        frame = new JFrame("Connect Four");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setSize(1000,700);
         for (Panel panel : panels) {
             frame.add(panel);
         }
+//        frame.pack();
         frame.setVisible(true);
 
     }
@@ -78,10 +79,18 @@ public class idc {
                     ) return board[i][j];
                 }
 
-                if(i<4 && j<3){
+                if(i<4 && j<3){                             //check diagonal /
                     if(board[i][j]==board[i+1][j+1] &&
                             board[i][j]==board[i+2][j+2] &&
                             board[i][j]==board[i+3][j+3] &&
+                            board[i][j]!= 0
+                    ) return board[i][j];
+                }
+
+                if(i>2 && j<3){                             //check diagonal \
+                    if(board[i][j]==board[i-1][j+1] &&
+                            board[i][j]==board[i-2][j+2] &&
+                            board[i][j]==board[i-3][j+3] &&
                             board[i][j]!= 0
                     ) return board[i][j];
                 }
