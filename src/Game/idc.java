@@ -11,12 +11,12 @@ public class idc {
 
     public static int[][] board = new int[7][6];//each col is one array and the whole is array of columns
     public static int turn = 1;
+    public static boolean clickUnlocked = true;
+    public static boolean hasAI = true;
 
     public static Column[] columns = new Column[7];
 
     public static void main(String[] args) {
-
-
         Panel[] panels = new Panel[7];
         for (int i=0;i<7;i++){
             panels[i] = new Panel();
@@ -24,11 +24,9 @@ public class idc {
             panels[i].setLayout(null);
         }
 
-
         for (int i =0; i<columns.length;i++){
             columns[i] = new Column(i);
         }
-
 
         for (int i=0; i<7;i++){
             JLabel[] x = columns[i].getLabels();
@@ -37,18 +35,33 @@ public class idc {
             }
         }
 
-
+        Panel boardPanel = new Panel();
+        boardPanel.setLayout(null);
+        boardPanel.setSize(700,600);
+        for (Panel p : panels) {
+            boardPanel.add(p);
+        }
+        boardPanel.setBounds(0,100,700,600);
 
         frame = new JFrame("Connect Four");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
-        frame.setSize(1000,700);
-        for (Panel panel : panels) {
-            frame.add(panel);
-        }
-//        frame.pack();
-        frame.setVisible(true);
 
+        Panel titlePanel = new Panel();
+        titlePanel.setLayout(null);
+        JLabel f = new JLabel("Connect Four");
+        f.setBounds(0,0,700,100);
+        titlePanel.add(f);
+        titlePanel.setBounds(0,0,700,100);
+
+        frame.add(titlePanel);
+        frame.add(boardPanel);
+
+        frame.pack();
+        frame.setVisible(true);
+        frame.setLocation(300,50);
+
+        if(hasAI)
+            new Game(new RandomAI());
     }
 
     public static void drawBoard() {
@@ -71,6 +84,7 @@ public class idc {
                             board[i][j]!= 0
                     ) return board[i][j];
                 }
+
                 if(i<4){                                    //check row
                     if(board[i][j]==board[i+1][j] &&
                             board[i][j]==board[i+2][j] &&
@@ -96,7 +110,6 @@ public class idc {
                 }
             }
         }
-
         return 0;
     }
 }
