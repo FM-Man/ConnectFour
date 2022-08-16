@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static Game.idc.*;
-
-
 public class Column {
     private static final ImageIcon red = new ImageIcon("red.png");
     private static final ImageIcon yellow = new ImageIcon("yellow.png");
@@ -41,9 +38,9 @@ public class Column {
 
     private void clicked(){
         if(size<6 && Game.getInstance().playable()){
-            if (!hasAI || Game.getInstance().clickable()) {
+            if (!FrameGenerator.hasAI() || Game.getInstance().clickable()) {
                 Game.getInstance().updateBoard(id);
-                if(hasAI)
+                if(FrameGenerator.hasAI())
                     Game.getInstance().flipClick();
             }
         }

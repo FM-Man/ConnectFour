@@ -3,9 +3,9 @@ package Game;
 import javax.swing.*;
 import java.awt.*;
 
-public class idc {
-    public static boolean hasAI = false;
-    public static Column[] columns = new Column[7];
+public class FrameGenerator {
+    private static AI ai;
+    private static final Column[] columns = new Column[7];
 
     public static void main(String[] args) {
 
@@ -14,8 +14,12 @@ public class idc {
         }
         drawFrame();
 
-        if(hasAI)
-            Game.startGame(new RandomAI());
+        boolean hasAI = true;
+
+        if(hasAI) {
+            ai = new RandomAI();
+            Game.startGame(ai);
+        }
         else Game.startGame();
     }
 
@@ -59,6 +63,14 @@ public class idc {
         frame.pack();
         frame.setVisible(true);
         frame.setLocation(300,50);
+    }
+
+    public static Column[] columns(){
+        return columns;
+    }
+
+    public static boolean hasAI(){
+        return ai!=null;
     }
 
 }

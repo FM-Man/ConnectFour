@@ -1,7 +1,5 @@
 package Game;
 
-import static Game.idc.*;
-
 public class Game {
     private AI ai;
 
@@ -32,8 +30,8 @@ public class Game {
             System.out.print("");
             if(!clickUnlocked) {
                 System.out.print("");
-                int a = ai.play();
-                columns[a].aiClick();
+                int a = ai.play(board);
+                FrameGenerator.columns()[a].aiClick();
             }
             if(!Game.getInstance().playable())
                 return;
@@ -47,7 +45,7 @@ public class Game {
 
     public void drawBoard() {
         for (int i=0; i<7; i++){
-            columns[i].drawColumn(board[i]);
+            FrameGenerator.columns()[i].drawColumn(board[i]);
         }
         if (checkWinner() != 0) {
             System.out.println("player "+checkWinner()+ " winner");
@@ -100,7 +98,7 @@ public class Game {
                 board[columnIndex][i] = turn;
                 drawBoard();
                 turn = (int) (turn * Math.pow(2,(2*(turn%2) - 1)));
-                columns[columnIndex].incrementSize();
+                FrameGenerator.columns()[columnIndex].incrementSize();
                 break;
             }
         }
