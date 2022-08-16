@@ -3,12 +3,15 @@ package Game;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import static Game.idc.*;
 
 
 public class Column {
+    private static final ImageIcon red = new ImageIcon("red.png");
+    private static final ImageIcon yellow = new ImageIcon("yellow.png");
+    private static final ImageIcon empty = new ImageIcon("empty.png");
+
     final int id;
     private int size = 0;
     private final JLabel[] labels = new JLabel[6];
@@ -24,7 +27,6 @@ public class Column {
                     clicked();
                 }
             });
-
             labels[j] = l;
         }
     }
@@ -34,62 +36,17 @@ public class Column {
     }
 
     public void aiClick(){
-        for (int i = 0; i < 6; i++) {
-            if (board[id][i] == 0) {
-                board[id][i] = turn;
-                drawBoard();
-                turn = (turn % 2) + 1;
-                size++;
-                break;
-            }
-        }
+        Game.getInstance().updateBoard(id);
     }
 
     private void clicked(){
-        if(size<6 && turn!=0){
-            if (!hasAI || clickUnlocked) {
-                for (int i = 0; i < 6; i++) {
-                    if (board[id][i] == 0) {
-                        board[id][i] = turn;
-                        drawBoard();
-                        turn = (int) (turn * Math.pow(2,(2*(turn%2) - 1)));
-                        size++;
-                        break;
-                    }
-                }
+        if(size<6 && Game.getInstance().playable()){
+            if (!hasAI || Game.getInstance().clickable()) {
+                Game.getInstance().updateBoard(id);
                 if(hasAI)
-                    clickUnlocked = false;
+                    Game.getInstance().flipClick();
             }
         }
-
-//        if(hasAI){
-//            if(size<6 && clickUnlocked && turn!=0){
-//                for (int i = 0; i < 6; i++) {
-//                    if (board[id][i] == 0) {
-//                        board[id][i] = turn;
-//                        drawBoard();
-//                        turn = (turn % 2) + 1;
-//                        size++;
-//                        clickUnlocked = false;
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//        else {
-//            if(size<6 && turn!=0){
-//                for (int i = 0; i < 6; i++) {
-//                    if (board[id][i] == 0) {
-//                        board[id][i] = turn;
-//                        drawBoard();
-//                        turn = (turn % 2) + 1;
-//                        size++;
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-
     }
 
     public void drawColumn(int[] status) {
@@ -102,5 +59,9 @@ public class Column {
 
     public int size(){
         return size;
+    }
+
+    public void incrementSize(){
+        size++;
     }
 }

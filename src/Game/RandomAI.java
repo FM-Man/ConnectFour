@@ -1,6 +1,5 @@
 package Game;
 
-import static Game.idc.clickUnlocked;
 import static Game.idc.columns;
 
 public class RandomAI extends AI{
@@ -9,7 +8,7 @@ public class RandomAI extends AI{
         while (true){
             int a = (int) (Math.random()*7);
             if(columns[a].size()<6){
-                clickUnlocked = true;
+                Game.getInstance().flipClick();
                 return a;
             }
         }
