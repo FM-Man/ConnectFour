@@ -8,19 +8,51 @@ public class FrameGenerator {
     private static final Column[] columns = new Column[7];
 
     public static void main(String[] args) {
-
         for (int i =0; i<columns.length;i++){
             columns[i] = new Column(i);
         }
+
+        boolean hasAI;
+
+        int n = JOptionPane.showOptionDialog(
+                new Frame(),
+                "Game Mode",
+                "A Silly Question",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                new Object[]{"Single Player", "Multi Player"},
+                1
+        );
+
+        if(n==0) {
+            hasAI = true;
+
+            int m = JOptionPane.showOptionDialog(
+                    new Frame(),
+                    "Difficulty",
+                    "A Silly Question",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new Object[]{"Hard", "Easy"},
+                    1
+            );
+
+            if(m==1)
+                ai = new RandomAI();
+            else
+                ai = new MiniMaxAI();
+        }
+        else hasAI = false;
+
         drawFrame();
 
-        boolean hasAI = true;
-
         if(hasAI) {
-            ai = new RandomAI();
             Game.startGame(ai);
         }
-        else Game.startGame();
+        else
+            Game.startGame();
     }
 
 
