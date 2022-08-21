@@ -12,20 +12,22 @@ public class Node {
     NodeType type;
     int alphaBeta;
     int tempParentAlphaBeta;
+    int level;
 
     public Node(int[][] inputState, NodeType nt, Node parent, int level) {
         this.state = inputState;
         this.type = nt;
         MiniMaxAI.nodeCount++;
         this.parent = parent;
+        this.level= level;
 
-        if(type.equals(NodeType.MAX))
-            alphaBeta = Integer.MIN_VALUE;
-        else alphaBeta = Integer.MAX_VALUE;
-
-        if(parent!=null)
-            tempParentAlphaBeta = this.parent.alphaBeta;
-        else tempParentAlphaBeta = Integer.MAX_VALUE;
+//        if(type.equals(NodeType.MAX))
+//            alphaBeta = Integer.MIN_VALUE;
+//        else alphaBeta = Integer.MAX_VALUE;
+//
+//        if(parent!=null)
+//            tempParentAlphaBeta = this.parent.alphaBeta;
+//        else tempParentAlphaBeta = Integer.MAX_VALUE;
 
         for(int i=0; i<7;i++){
             for(int j=0; j<6; j++){
@@ -41,9 +43,13 @@ public class Node {
             eval = Game.getInstance().checkWinner();
         }
         else{
-            if(Game.getInstance().checkWinner()!=0 || level==0){
+            if(Game.getInstance().checkWinner()!=0){
                 terminalNode = true;
-                eval = Game.getInstance().checkWinner();
+                eval = Game.getInstance().checkWinner()*10000000;
+            }
+            else if(level==0){
+                terminalNode = true;
+                eval = evaluationFunction();
             }
             else {
                 for(int i=0; i<7; i++){
@@ -66,21 +72,21 @@ public class Node {
                         }
                     }
                 }
-                eval= evaluate();
-                tempParentAlphaBeta = eval;
-                setParent();
+                eval= evaluateBasedOnChild();
+//                tempParentAlphaBeta = eval;
+//                setParent();
             }
         }
-
-        if(terminalNode){
-            alphaBeta = eval;
-            if(pushUpwards()){
-                setParent();
-            }
-        }
+//
+//        if(terminalNode){
+//            alphaBeta = eval;
+//            if(pushUpwards()){
+//                setParent();
+//            }
+//        }
     }
 
-    private int evaluate(){
+    private int evaluateBasedOnChild(){
         if(type.equals(NodeType.MAX))
             return max();
         else return min();
@@ -155,5 +161,116 @@ public class Node {
                 }
             }
         }
+    }
+
+    private int evaluationFunction(){
+        int total =0;
+        for(int i=0;i<7;i++){
+            for (int j=0;j<6;j++){
+                //check horizontal
+                if(i<4){
+                    boolean possible = true;
+                    int count =0;
+                    int standard = state[i][j];
+                    for(int k=i; k<i+4; k++){
+                        if(state[k][j]==standard){
+                            count++;
+                        }
+                        //interruption
+                        else if(state[k][j]==standard*-1){
+                            count = 0;
+                            possible = false;
+                            break;
+                        }
+                    }
+                    if(possible){
+                        total += standard*count;
+                    }
+                }
+
+                //check vertical
+                if(j<3){
+                    boolean possible = true;
+                    int count =0;
+                    int standard = state[i][j];
+                    for(int k=j; k<j+4; k++){
+                        if(state[i][k]==standard){
+                            count++;
+                        }
+                        //interruption
+                        else if(state[i][k]==standard*-1){
+                            count = 0;
+                            possible = false;
+                            break;
+                        }
+                    }
+                    if(possible){
+                        total += standard*count;
+                    }
+                }
+
+                //check diagonal /
+                if(i<4 &&j<3){
+                    boolean possible = true;
+                    int count =0;
+                    int standard = state[i][j];
+                    for(int k=0; k<4; k++){
+                        if(state[i+k][j+k]==standard){
+                            count++;
+                        }
+                        //interruption
+                        else if(state[i+k][j+k]==standard*-1){
+                            count = 0;
+                            possible = false;
+                            break;
+                        }
+                    }
+                    if(possible){
+                        total += standard*count;
+                    }
+                }
+
+                //check diagonal \
+                if(i>2 &&j<3){
+                    boolean possible = true;
+                    int count =0;
+                    int standard = state[i][j];
+                    for(int k=0; k<4; k++){
+                        if(state[i-k][j+k]==standard){
+                            count++;
+                        }
+                        //interruption
+                        else if(state[i-k][j+k]==standard*-1){
+                            count = 0;
+                            possible = false;
+                            break;
+                        }
+                    }
+                    if(possible){
+                        total += standard*count;
+                    }
+                }
+
+            }
+        }
+
+        return total;
+    }
+
+    public String toString(){
+        String ret="";
+        String tabs = "";
+        for (int i=4-level;i>=0;i--) tabs+="    ";
+        ret+=tabs+"{\n";
+        for (int[] a:state) {
+            ret+=tabs+"    "+Arrays.toString(a)+"\n";
+        }
+        ret+=tabs+"    e:" +eval+"\n";
+        for (Node c:children)
+            ret+=c;
+
+        ret+=tabs+"}"+"\n";
+//        System.out.println(ret);
+        return ret;
     }
 }

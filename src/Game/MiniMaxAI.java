@@ -5,7 +5,7 @@ public class MiniMaxAI extends AI{
     @Override
     int play(int[][] boardState) throws Exception {
         nodeCount = 0;
-        Node root = new Node(Game.getInstance().clone(boardState),NodeType.MAX, null,7);
+        Node root = new Node(Game.getInstance().clone(boardState),NodeType.MAX, null,3);
 
         Node bestChild = null;
         for (Node c: root.children){
@@ -23,6 +23,8 @@ public class MiniMaxAI extends AI{
         System.out.println(nodeCount+" node created\n");
 
         if(way<7 && way>=0){
+            System.out.println(way);
+            System.out.println(root);
             return way;
         }
         else throw new Exception("AI baire dite chay");
