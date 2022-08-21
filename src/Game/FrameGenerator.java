@@ -7,7 +7,7 @@ public class FrameGenerator {
     private static AI ai;
     private static final Column[] columns = new Column[7];
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         for (int i =0; i<columns.length;i++){
             columns[i] = new Column(i);
         }

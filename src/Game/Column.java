@@ -50,7 +50,7 @@ public class Column {
         for (int i=0; i<status.length; i++){
             if(status[i]==0) labels[i].setIcon(empty);
             else if(status[i]==1) labels[i].setIcon(red);
-            else if(status[i]==2) labels[i].setIcon(yellow);
+            else if(status[i]==-1) labels[i].setIcon(yellow);
         }
     }
 

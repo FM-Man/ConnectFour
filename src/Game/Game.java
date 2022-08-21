@@ -1,6 +1,7 @@
 package Game;
 
 public class Game {
+
     private AI ai;
 
     private static final int[][] board = new int[7][6];//each col is one array and the whole is array of columns
@@ -8,7 +9,7 @@ public class Game {
     public static boolean clickUnlocked = true;
 
     public static Game instance;
-    public static void startGame(AI ai){
+    public static void startGame(AI ai) throws Exception {
         if (instance == null) {
             instance = new Game(ai);
         }
@@ -25,12 +26,13 @@ public class Game {
         return instance;
     }
 
-    private Game(AI ai){
+    private Game(AI ai) throws Exception {
         while (true){
             System.out.print("");
-            if(!clickUnlocked) {
+            if(!clickUnlocked && turn!=0) {
                 System.out.print("");
                 int a = ai.play(board);
+                clickUnlocked = true;
                 FrameGenerator.columns()[a].aiClick();
             }
             if(!Game.getInstance().playable())
@@ -41,7 +43,6 @@ public class Game {
     private Game(){
 
     }
-
 
     public void drawBoard() {
         for (int i=0; i<7; i++){
@@ -97,7 +98,7 @@ public class Game {
             if (board[columnIndex][i] == 0) {
                 board[columnIndex][i] = turn;
                 drawBoard();
-                turn = (int) (turn * Math.pow(2,(2*(turn%2) - 1)));
+                turn *= -1;
                 FrameGenerator.columns()[columnIndex].incrementSize();
                 break;
             }
@@ -114,5 +115,13 @@ public class Game {
 
     public void flipClick(){
         clickUnlocked = !clickUnlocked;
+    }
+
+    public int[][] clone(int[][] input){
+        int[][] clone= new int[input.length][input[0].length];
+        for (int i=0;i<input.length;i++){
+            clone[i] = input[i].clone();
+        }
+        return clone;
     }
 }
