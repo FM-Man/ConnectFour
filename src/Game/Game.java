@@ -5,7 +5,7 @@ public class Game {
     private AI ai;
 
     private static final int[][] board = new int[7][6];//each col is one array and the whole is array of columns
-    private static int turn = 1;
+    private static int turn = -1;
     public static boolean clickUnlocked = true;
 
     public static Game instance;
