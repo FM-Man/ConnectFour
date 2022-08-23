@@ -1,5 +1,7 @@
 package Game;
 
+import javafx.stage.Screen;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -81,20 +83,19 @@ public class FrameGenerator {
 
         JFrame frame = new JFrame("Connect Four");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        Panel titlePanel = new Panel();
-        titlePanel.setLayout(null);
-        JLabel f = new JLabel("Connect Four");
-        f.setBounds(0,0,700,100);
-        titlePanel.add(f);
-        titlePanel.setBounds(0,0,700,100);
-
-        frame.add(titlePanel);
+//
+//        Panel titlePanel = new Panel();
+//        titlePanel.setLayout(null);
+//        JLabel f = new JLabel("Connect Four");
+//        f.setBounds(0,0,700,100);
+//        titlePanel.add(f);
+//        titlePanel.setBounds(0,0,700,100);
+//
+//        frame.add(titlePanel);
         frame.add(boardPanel);
 
         frame.pack();
         frame.setVisible(true);
-        frame.setLocation(300,50);
     }
 
     public static Column[] columns(){

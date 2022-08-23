@@ -1,5 +1,7 @@
 package Game;
 
+import java.util.Arrays;
+
 public class Game {
 
     private AI ai;
@@ -35,7 +37,7 @@ public class Game {
                 clickUnlocked = true;
                 FrameGenerator.columns()[a].aiClick();
             }
-            if(!Game.getInstance().playable())
+            if(!playable())
                 return;
         }
     }
@@ -97,12 +99,26 @@ public class Game {
         for (int i = 0; i < 6; i++) {
             if (board[columnIndex][i] == 0) {
                 board[columnIndex][i] = turn;
+                FrameGenerator.columns()[columnIndex].incrementSize();
                 drawBoard();
                 turn *= -1;
-                FrameGenerator.columns()[columnIndex].incrementSize();
+
+
+//                FrameGenerator.columns()[columnIndex].incrementSize();
                 break;
             }
         }
+
+        print(board);
+//        if(FrameGenerator.hasAI())
+//            flipClick();
+    }
+
+    private void print(int[][] arr){
+        for (int[] a:arr) {
+            System.out.println(Arrays.toString(a));
+        }
+        System.out.println("------------------------------------------------");
     }
 
     public boolean playable(){

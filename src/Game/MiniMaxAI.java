@@ -1,11 +1,14 @@
 package Game;
 
+import java.io.File;
+import java.io.FileWriter;
+
 public class MiniMaxAI extends AI{
     public static int nodeCount =0;
     @Override
     int play(int[][] boardState) throws Exception {
         nodeCount = 0;
-        Node root = new Node(Game.getInstance().clone(boardState),NodeType.MAX, null,3);
+        Node root = new Node(Game.getInstance().clone(boardState),NodeType.MAX, null,5);
 
         Node bestChild = null;
         for (Node c: root.children){
@@ -24,7 +27,10 @@ public class MiniMaxAI extends AI{
 
         if(way<7 && way>=0){
             System.out.println(way);
-            System.out.println(root);
+            FileWriter wr = new FileWriter(new File("output.txt"));
+            wr.write(root.toString());
+            wr.close();
+//            System.out.println(root);
             return way;
         }
         else throw new Exception("AI baire dite chay");

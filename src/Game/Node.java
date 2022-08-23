@@ -53,7 +53,14 @@ public class Node {
             }
             else {
                 for(int i=0; i<7; i++){
-                    if(FrameGenerator.columns()[i].size()<6){
+                    boolean canBeFilled = false;
+                    for (int j=0;j<6;j++){
+                        if(state[i][j]==0) {
+                            canBeFilled = true;
+                            break;
+                        }
+                    }
+                    if(canBeFilled){
                         int[][] temp = Game.getInstance().clone(state);
                         int replace= type.equals(NodeType.MAX) ? 1 : -1;
                         for (int j = 0; j < 6; j++) {
@@ -67,9 +74,9 @@ public class Node {
                         Node n = new Node(temp,newType,this, level-1);
                         children.add(n);
 
-                        if (!pushUpwards()) {
-                            break;
-                        }
+//                        if (!pushUpwards()) {
+//                            break;
+//                        }
                     }
                 }
                 eval= evaluateBasedOnChild();
@@ -77,7 +84,7 @@ public class Node {
 //                setParent();
             }
         }
-//
+
 //        if(terminalNode){
 //            alphaBeta = eval;
 //            if(pushUpwards()){
@@ -95,7 +102,7 @@ public class Node {
     private int max(){
         int childEval= Integer.MIN_VALUE;
         for(Node n: children){
-            childEval = Integer.max(n.eval,childEval);
+            childEval = Math.max(n.eval, childEval);
         }
         return childEval;
     }
@@ -103,7 +110,7 @@ public class Node {
     private int min(){
         int childEval= Integer.MAX_VALUE;
         for(Node n: children){
-            childEval = Integer.min(n.eval,childEval);
+            childEval = Math.min(n.eval,childEval);
         }
         return childEval;
     }
@@ -260,7 +267,7 @@ public class Node {
     public String toString(){
         String ret="";
         String tabs = "";
-        for (int i=4-level;i>=0;i--) tabs+="    ";
+        for (int i=7-level;i>=0;i--) tabs+="\t";
         ret+=tabs+"{\n";
         for (int[] a:state) {
             ret+=tabs+"    "+Arrays.toString(a)+"\n";
