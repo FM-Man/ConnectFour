@@ -79,11 +79,11 @@ public class FrameGenerator {
         for (Panel p : panels) {
             boardPanel.add(p);
         }
-        boardPanel.setBounds(0,100,700,600);
+        boardPanel.setBounds(0,0,700,600);
 
         JFrame frame = new JFrame("Connect Four");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
+
 //        Panel titlePanel = new Panel();
 //        titlePanel.setLayout(null);
 //        JLabel f = new JLabel("Connect Four");
