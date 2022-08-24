@@ -21,13 +21,13 @@ public class Node {
         this.parent = parent;
         this.level= level;
 
-//        if(type.equals(NodeType.MAX))
-//            alphaBeta = Integer.MIN_VALUE;
-//        else alphaBeta = Integer.MAX_VALUE;
-//
-//        if(parent!=null)
-//            tempParentAlphaBeta = this.parent.alphaBeta;
-//        else tempParentAlphaBeta = Integer.MAX_VALUE;
+        if(type.equals(NodeType.MAX))
+            alphaBeta = Integer.MIN_VALUE;
+        else alphaBeta = Integer.MAX_VALUE;
+
+        if(parent!=null)
+            tempParentAlphaBeta = this.parent.alphaBeta;
+        else tempParentAlphaBeta = Integer.MAX_VALUE;
 
         for(int i=0; i<7;i++){
             for(int j=0; j<6; j++){
@@ -45,7 +45,7 @@ public class Node {
         else{
             if(checkWinner()!=0){
                 terminalNode = true;
-                eval = checkWinner()*200000;
+                eval = checkWinner()*2000*(level+1)/2;
             }
             else if(level==0){
                 terminalNode = true;
@@ -75,23 +75,23 @@ public class Node {
                         Node n = new Node(temp,newType,this, level-1);
                         children.add(n);
 
-//                        if (!pushUpwards()) {
-//                            break;
-//                        }
+                        if (!pushUpwards()) {
+                            break;
+                        }
                     }
                 }
                 eval= evaluateBasedOnChild();
-//                tempParentAlphaBeta = eval;
-//                setParent();
+                tempParentAlphaBeta = eval;
+                setParent();
             }
         }
-//
-//        if(terminalNode){
-//            alphaBeta = eval;
-//            if(pushUpwards()){
-//                setParent();
-//            }
-//        }
+
+        if(terminalNode){
+            alphaBeta = eval;
+            if(pushUpwards()){
+                setParent();
+            }
+        }
     }
 
     private int evaluateBasedOnChild(){
@@ -299,9 +299,9 @@ public class Node {
                     }
                     if(possible){
                         if(count ==3)
-                            total+= standard*10000;
+                            total+= standard*100;
                         else if(count ==2)
-                            total+=standard*100;
+                            total+=standard*10;
                         else
                             total += standard*count;
                     }
