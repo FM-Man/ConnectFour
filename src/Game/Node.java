@@ -40,16 +40,17 @@ public class Node {
                 break;
         }
         if(terminalNode) {
-            eval = Game.getInstance().checkWinner();
+            eval = checkWinner();
         }
         else{
-            if(Game.getInstance().checkWinner()!=0){
+            if(checkWinner()!=0){
                 terminalNode = true;
-                eval = Game.getInstance().checkWinner()*10000000;
+                eval = checkWinner()*200;
             }
             else if(level==0){
                 terminalNode = true;
-                eval = evaluationFunction();
+//                eval = evaluationFunction();
+                eval = evaluateContent();
             }
             else {
                 for(int i=0; i<7; i++){
@@ -85,12 +86,12 @@ public class Node {
             }
         }
 
-//        if(terminalNode){
-//            alphaBeta = eval;
-//            if(pushUpwards()){
-//                setParent();
-//            }
-//        }
+        if(terminalNode){
+            alphaBeta = eval;
+            if(pushUpwards()){
+                setParent();
+            }
+        }
     }
 
     private int evaluateBasedOnChild(){
@@ -113,6 +114,29 @@ public class Node {
             childEval = Math.min(n.eval,childEval);
         }
         return childEval;
+    }
+
+    private static final int[][] evaluationTable = {
+            {3, 4,  5,  5,  4,  3},
+            {4, 6,  8,  8,  6,  4},
+            {5, 8,  11, 11, 8,  5},
+            {7, 10, 13, 13, 10, 7},
+            {5, 8,  11, 11, 8,  5},
+            {4, 6,  8,  8,  6,  4},
+            {3, 4,  5,  5,  4,  3}
+    };
+
+    //here is where the evaluation table is called
+    public int evaluateContent() {
+        int center = 138;
+        int sum = 0;
+        for (int i = 0; i < state.length; i++)
+            for (int j = 0; j <state[0].length; j++)
+                if (state[i][j] == 1)
+                    sum += evaluationTable[i][j];
+                else if (state[i][j] == -1)
+                    sum -= evaluationTable[i][j];
+        return center + sum;
     }
 
     public int getDifference(Node child) throws Exception {
@@ -191,7 +215,12 @@ public class Node {
                         }
                     }
                     if(possible){
-                        total += standard*count;
+                        if(count ==3)
+                            total+= standard*10000;
+                        else if(count ==2)
+                            total+=standard*100;
+                        else
+                            total += standard*count;
                     }
                 }
 
@@ -212,7 +241,12 @@ public class Node {
                         }
                     }
                     if(possible){
-                        total += standard*count;
+                        if(count ==3)
+                            total+= standard*10000;
+                        else if(count ==2)
+                            total+=standard*100;
+                        else
+                            total += standard*count;
                     }
                 }
 
@@ -233,7 +267,12 @@ public class Node {
                         }
                     }
                     if(possible){
-                        total += standard*count;
+                        if(count ==3)
+                            total+= standard*10000;
+                        else if(count ==2)
+                            total+=standard*100;
+                        else
+                            total += standard*count;
                     }
                 }
 
@@ -254,7 +293,12 @@ public class Node {
                         }
                     }
                     if(possible){
-                        total += standard*count;
+                        if(count ==3)
+                            total+= standard*10000;
+                        else if(count ==2)
+                            total+=standard*100;
+                        else
+                            total += standard*count;
                     }
                 }
 
@@ -280,4 +324,44 @@ public class Node {
 //        System.out.println(ret);
         return ret;
     }
+
+    public int checkWinner(){
+        for(int i=0; i<7;i++){
+            for(int j=0; j<6; j++){
+                if(j<3){                                    //check column
+                    if(state[i][j]==state[i][j+1] &&
+                            state[i][j]==state[i][j+2] &&
+                            state[i][j]==state[i][j+3] &&
+                            state[i][j]!= 0
+                    ) return state[i][j];
+                }
+
+                if(i<4){                                    //check row
+                    if(state[i][j]==state[i+1][j] &&
+                            state[i][j]==state[i+2][j] &&
+                            state[i][j]==state[i+3][j] &&
+                            state[i][j]!= 0
+                    ) return state[i][j];
+                }
+
+                if(i<4 && j<3){                             //check diagonal /
+                    if(state[i][j]==state[i+1][j+1] &&
+                            state[i][j]==state[i+2][j+2] &&
+                            state[i][j]==state[i+3][j+3] &&
+                            state[i][j]!= 0
+                    ) return state[i][j];
+                }
+
+                if(i>2 && j<3){                             //check diagonal \
+                    if(state[i][j]==state[i-1][j+1] &&
+                            state[i][j]==state[i-2][j+2] &&
+                            state[i][j]==state[i-3][j+3] &&
+                            state[i][j]!= 0
+                    ) return state[i][j];
+                }
+            }
+        }
+        return 0;
+    }
+
 }

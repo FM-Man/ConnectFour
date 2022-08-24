@@ -8,7 +8,7 @@ public class MiniMaxAI extends AI{
     @Override
     int play(int[][] boardState) throws Exception {
         nodeCount = 0;
-        Node root = new Node(Game.getInstance().clone(boardState),NodeType.MAX, null,5);
+        Node root = new Node(Game.getInstance().clone(boardState),NodeType.MAX, null,10);
 
         Node bestChild = null;
         for (Node c: root.children){
