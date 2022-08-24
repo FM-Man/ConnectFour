@@ -21,13 +21,13 @@ public class Node {
         this.parent = parent;
         this.level= level;
 
-        if(type.equals(NodeType.MAX))
-            alphaBeta = Integer.MIN_VALUE;
-        else alphaBeta = Integer.MAX_VALUE;
-
-        if(parent!=null)
-            tempParentAlphaBeta = this.parent.alphaBeta;
-        else tempParentAlphaBeta = Integer.MAX_VALUE;
+//        if(type.equals(NodeType.MAX))
+//            alphaBeta = Integer.MIN_VALUE;
+//        else alphaBeta = Integer.MAX_VALUE;
+//
+//        if(parent!=null)
+//            tempParentAlphaBeta = this.parent.alphaBeta;
+//        else tempParentAlphaBeta = Integer.MAX_VALUE;
 
         for(int i=0; i<7;i++){
             for(int j=0; j<6; j++){
@@ -75,23 +75,23 @@ public class Node {
                         Node n = new Node(temp,newType,this, level-1);
                         children.add(n);
 
-                        if (!pushUpwards()) {
-                            break;
-                        }
+//                        if (!pushUpwards()) {
+//                            break;
+//                        }
                     }
                 }
                 eval= evaluateBasedOnChild();
-                tempParentAlphaBeta = eval;
-                setParent();
+//                tempParentAlphaBeta = eval;
+//                setParent();
             }
         }
-
-        if(terminalNode){
-            alphaBeta = eval;
-            if(pushUpwards()){
-                setParent();
-            }
-        }
+//
+//        if(terminalNode){
+//            alphaBeta = eval;
+//            if(pushUpwards()){
+//                setParent();
+//            }
+//        }
     }
 
     private int evaluateBasedOnChild(){
@@ -136,7 +136,7 @@ public class Node {
                     sum += evaluationTable[i][j];
                 else if (state[i][j] == -1)
                     sum -= evaluationTable[i][j];
-        return center + sum;
+        return sum;
     }
 
     public int getDifference(Node child) throws Exception {
