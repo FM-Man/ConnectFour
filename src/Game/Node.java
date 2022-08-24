@@ -40,7 +40,7 @@ public class Node {
                 break;
         }
         if(terminalNode) {
-            eval = checkWinner();
+            eval = checkWinner()*2000*(level+1)/2;
         }
         else{
             if(checkWinner()!=0){
@@ -49,7 +49,7 @@ public class Node {
             }
             else if(level==0){
                 terminalNode = true;
-                eval = evaluationFunction();
+                eval = evaluationFunction()*(level+1)/2;
 //                eval = evaluateContent();
             }
             else {
