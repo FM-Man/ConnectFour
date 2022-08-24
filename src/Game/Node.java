@@ -20,14 +20,16 @@ public class Node {
         MiniMaxAI.nodeCount++;
         this.parent = parent;
         this.level= level;
-//
-//        if(type.equals(NodeType.MAX))
-//            alphaBeta = Integer.MIN_VALUE;
-//        else alphaBeta = Integer.MAX_VALUE;
-//
-//        if(parent!=null)
-//            tempParentAlphaBeta = this.parent.alphaBeta;
-//        else tempParentAlphaBeta = Integer.MAX_VALUE;
+
+        /*********************************************/
+        if(type.equals(NodeType.MAX))
+            alphaBeta = Integer.MIN_VALUE;
+        else alphaBeta = Integer.MAX_VALUE;
+
+        if(parent!=null)
+            tempParentAlphaBeta = this.parent.alphaBeta;
+        else tempParentAlphaBeta = Integer.MAX_VALUE;
+        /***************************************************/
 
         for(int i=0; i<7;i++){
             for(int j=0; j<6; j++){
@@ -76,36 +78,77 @@ public class Node {
                         Node n = new Node(temp,newType,this, level-1);
                         children.add(n);
 
-//                        if (!pushUpwards()) {
-//                            break;
-//                        }
+                        /**************start****************/
+                        if(parent!=null)
+                            if(parent.parent!=null)
+                                if (!pushUpwards())
+                                    break;
+
+                        /***************end******************/
                     }
                 }
                 eval= evaluateBasedOnChild();
                 tempParentAlphaBeta = eval;
-//                setParent();
+                /***********************************/
+                setParent();
+                /*********************************/
             }
         }
 
-//        if(terminalNode){
-//            alphaBeta = eval;
-//            if(pushUpwards()){
-//                setParent();
-//            }
-//        }
+        /**************************************/
+        if(terminalNode){
+            alphaBeta = eval;
+            if(pushUpwards()){
+                setParent();
+            }
+        }
+        /***********************************/
     }
 
-    private int evaluationFunction3() {
-        int i,j;
-        for (i=0; i<7; i++){
-            for(j=0; j<6; j++){
-                if(state[i][j]==0) break;
+
+
+
+    public int checkWinner(){
+        for(int i=0; i<7;i++){
+            for(int j=0; j<6; j++){
+                if(j<3){                                    //check column
+                    if(state[i][j]==state[i][j+1] &&
+                            state[i][j]==state[i][j+2] &&
+                            state[i][j]==state[i][j+3] &&
+                            state[i][j]!= 0
+                    ) return state[i][j];
+                }
+
+                if(i<4){                                    //check row
+                    if(state[i][j]==state[i+1][j] &&
+                            state[i][j]==state[i+2][j] &&
+                            state[i][j]==state[i+3][j] &&
+                            state[i][j]!= 0
+                    ) return state[i][j];
+                }
+
+                if(i<4 && j<3){                             //check diagonal /
+                    if(state[i][j]==state[i+1][j+1] &&
+                            state[i][j]==state[i+2][j+2] &&
+                            state[i][j]==state[i+3][j+3] &&
+                            state[i][j]!= 0
+                    ) return state[i][j];
+                }
+
+                if(i>2 && j<3){                             //check diagonal \
+                    if(state[i][j]==state[i-1][j+1] &&
+                            state[i][j]==state[i-2][j+2] &&
+                            state[i][j]==state[i-3][j+3] &&
+                            state[i][j]!= 0
+                    ) return state[i][j];
+                }
             }
-
-
         }
         return 0;
     }
+
+
+
 
     private int evaluateBasedOnChild(){
         if(type.equals(NodeType.MAX))
@@ -131,82 +174,6 @@ public class Node {
 
 
 
-    public int evaluationFunction2() {
-        final int[][] evaluationTable = {
-                {3, 4,  5,  5,  4,  3},
-                {4, 6,  8,  8,  6,  4},
-                {5, 8,  11, 11, 8,  5},
-                {7, 10, 13, 13, 10, 7},
-                {5, 8,  11, 11, 8,  5},
-                {4, 6,  8,  8,  6,  4},
-                {3, 4,  5,  5,  4,  3}
-        };
-
-        int center = 138;
-        int sum = 0;
-        for (int i = 0; i < state.length; i++)
-            for (int j = 0; j <state[0].length; j++)
-                if (state[i][j] == 1)
-                    sum += evaluationTable[i][j];
-                else if (state[i][j] == -1)
-                    sum -= evaluationTable[i][j];
-        return sum;
-    }
-
-    public int getDifference(Node child) throws Exception {
-        for(int i=0; i<7; i++){
-            for (int j=0; j<6; j++){
-                if (child.state[i][j] != state[i][j]) {
-                    if(child.state[i][j]==1 && state[i][j]==0)
-                        return i;
-                    else if(child.state[i][j]==-1 && state[i][j]==0)
-                        throw new Exception("ai -1 daan dise kemne jani");
-                    else if(state[i][j]!=0)
-                        throw new Exception("ai ager daan nai koira dese kemne?");
-                    else throw new Exception("ki hoiche jani na. but check koira dekh");
-                }
-            }
-        }
-        throw new Exception("akam chodaiso");
-    }
-
-    private void print(int[][] arr){
-        for (int[] a:arr) {
-            System.out.println(Arrays.toString(a));
-        }
-        System.out.println("------------------------------------------------");
-    }
-
-    private boolean pushUpwards(){
-        if(type.equals(NodeType.MAX)){
-            if(alphaBeta<= tempParentAlphaBeta){
-                tempParentAlphaBeta = alphaBeta;
-                return true;
-            }
-            else return false;
-        }
-        else {
-            if(alphaBeta>=tempParentAlphaBeta){
-                tempParentAlphaBeta = alphaBeta;
-                return true;
-            }
-            else return false;
-        }
-    }
-
-    private void setParent(){
-        if(parent != null){
-            if(type.equals(NodeType.MAX)){
-                if(tempParentAlphaBeta<=parent.alphaBeta){
-                    parent.alphaBeta = tempParentAlphaBeta;
-                }
-            } else {
-                if(tempParentAlphaBeta >= parent.alphaBeta){
-                    parent.alphaBeta = tempParentAlphaBeta;
-                }
-            }
-        }
-    }
 
     private int evaluationFunction(){
         int total =0;
@@ -327,6 +294,67 @@ public class Node {
         return total;
     }
 
+    public int evaluationFunction2() {
+        final int[][] evaluationTable = {
+                {3, 4,  5,  5,  4,  3},
+                {4, 6,  8,  8,  6,  4},
+                {5, 8,  11, 11, 8,  5},
+                {7, 10, 13, 13, 10, 7},
+                {5, 8,  11, 11, 8,  5},
+                {4, 6,  8,  8,  6,  4},
+                {3, 4,  5,  5,  4,  3}
+        };
+
+        int center = 138;
+        int sum = 0;
+        for (int i = 0; i < state.length; i++)
+            for (int j = 0; j <state[0].length; j++)
+                if (state[i][j] == 1)
+                    sum += evaluationTable[i][j];
+                else if (state[i][j] == -1)
+                    sum -= evaluationTable[i][j];
+        return sum;
+    }
+//
+//    private int evaluationFunction3() {
+//        int i,j;
+//        for (i=0; i<7; i++){
+//            for(j=0; j<6; j++){
+//                if(state[i][j]==0) break;
+//            }
+//
+//
+//        }
+//        return 0;
+//    }
+
+
+
+
+    public int getDifference(Node child) throws Exception {
+        for(int i=0; i<7; i++){
+            for (int j=0; j<6; j++){
+                if (child.state[i][j] != state[i][j]) {
+                    if(child.state[i][j]==1 && state[i][j]==0)
+                        return i;
+                    else if(child.state[i][j]==-1 && state[i][j]==0)
+                        throw new Exception("ai -1 daan dise kemne jani");
+                    else if(state[i][j]!=0)
+                        throw new Exception("ai ager daan nai koira dese kemne?");
+                    else throw new Exception("ki hoiche jani na. but check koira dekh");
+                }
+            }
+        }
+        throw new Exception("akam chodaiso");
+    }
+
+    private void print(int[][] arr){
+        for (int[] a:arr) {
+            System.out.println(Arrays.toString(a));
+        }
+        System.out.println("------------------------------------------------");
+    }
+
     public String toString(){
         String ret="";
         String tabs = "";
@@ -344,43 +372,37 @@ public class Node {
         return ret;
     }
 
-    public int checkWinner(){
-        for(int i=0; i<7;i++){
-            for(int j=0; j<6; j++){
-                if(j<3){                                    //check column
-                    if(state[i][j]==state[i][j+1] &&
-                            state[i][j]==state[i][j+2] &&
-                            state[i][j]==state[i][j+3] &&
-                            state[i][j]!= 0
-                    ) return state[i][j];
-                }
 
-                if(i<4){                                    //check row
-                    if(state[i][j]==state[i+1][j] &&
-                            state[i][j]==state[i+2][j] &&
-                            state[i][j]==state[i+3][j] &&
-                            state[i][j]!= 0
-                    ) return state[i][j];
-                }
 
-                if(i<4 && j<3){                             //check diagonal /
-                    if(state[i][j]==state[i+1][j+1] &&
-                            state[i][j]==state[i+2][j+2] &&
-                            state[i][j]==state[i+3][j+3] &&
-                            state[i][j]!= 0
-                    ) return state[i][j];
-                }
 
-                if(i>2 && j<3){                             //check diagonal \
-                    if(state[i][j]==state[i-1][j+1] &&
-                            state[i][j]==state[i-2][j+2] &&
-                            state[i][j]==state[i-3][j+3] &&
-                            state[i][j]!= 0
-                    ) return state[i][j];
+    private boolean pushUpwards(){
+        if(type.equals(NodeType.MAX)){
+            if(alphaBeta<= tempParentAlphaBeta){
+                tempParentAlphaBeta = alphaBeta;
+                return true;
+            }
+            else return false;
+        }
+        else {
+            if(alphaBeta>=tempParentAlphaBeta){
+                tempParentAlphaBeta = alphaBeta;
+                return true;
+            }
+            else return false;
+        }
+    }
+
+    private void setParent(){
+        if(parent != null){
+            if(type.equals(NodeType.MAX)){
+                if(tempParentAlphaBeta<=parent.alphaBeta){
+                    parent.alphaBeta = tempParentAlphaBeta;
+                }
+            } else {
+                if(tempParentAlphaBeta >= parent.alphaBeta){
+                    parent.alphaBeta = tempParentAlphaBeta;
                 }
             }
         }
-        return 0;
     }
-
 }
