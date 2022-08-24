@@ -1,7 +1,5 @@
 package Game;
 
-import javafx.stage.Screen;
-
 import javax.swing.*;
 import java.awt.*;
 

@@ -45,12 +45,12 @@ public class Node {
         else{
             if(checkWinner()!=0){
                 terminalNode = true;
-                eval = checkWinner()*200;
+                eval = checkWinner()*200000;
             }
             else if(level==0){
                 terminalNode = true;
-//                eval = evaluationFunction();
-                eval = evaluateContent();
+                eval = evaluationFunction();
+//                eval = evaluateContent();
             }
             else {
                 for(int i=0; i<7; i++){
@@ -207,12 +207,17 @@ public class Node {
                         if(state[k][j]==standard){
                             count++;
                         }
-                        //interruption
-                        else if(state[k][j]==standard*-1){
-                            count = 0;
-                            possible = false;
-                            break;
+                        else {
+                            if (standard != 0) {
+                                if (state[k][j] == standard * -1) {
+                                    count = 0;
+                                    possible = false;
+                                    break;
+                                }
+                            }
+                            //interruption
                         }
+
                     }
                     if(possible){
                         if(count ==3)
