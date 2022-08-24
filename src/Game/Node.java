@@ -20,14 +20,14 @@ public class Node {
         MiniMaxAI.nodeCount++;
         this.parent = parent;
         this.level= level;
-
-        if(type.equals(NodeType.MAX))
-            alphaBeta = Integer.MIN_VALUE;
-        else alphaBeta = Integer.MAX_VALUE;
-
-        if(parent!=null)
-            tempParentAlphaBeta = this.parent.alphaBeta;
-        else tempParentAlphaBeta = Integer.MAX_VALUE;
+//
+//        if(type.equals(NodeType.MAX))
+//            alphaBeta = Integer.MIN_VALUE;
+//        else alphaBeta = Integer.MAX_VALUE;
+//
+//        if(parent!=null)
+//            tempParentAlphaBeta = this.parent.alphaBeta;
+//        else tempParentAlphaBeta = Integer.MAX_VALUE;
 
         for(int i=0; i<7;i++){
             for(int j=0; j<6; j++){
@@ -50,7 +50,8 @@ public class Node {
             else if(level==0){
                 terminalNode = true;
                 eval = evaluationFunction()*(level+1)/2;
-//                eval = evaluateContent();
+//                eval = evaluationFunction2();
+//                eval = evaluationFunction3();
             }
             else {
                 for(int i=0; i<7; i++){
@@ -75,23 +76,35 @@ public class Node {
                         Node n = new Node(temp,newType,this, level-1);
                         children.add(n);
 
-                        if (!pushUpwards()) {
-                            break;
-                        }
+//                        if (!pushUpwards()) {
+//                            break;
+//                        }
                     }
                 }
                 eval= evaluateBasedOnChild();
                 tempParentAlphaBeta = eval;
-                setParent();
+//                setParent();
             }
         }
 
-        if(terminalNode){
-            alphaBeta = eval;
-            if(pushUpwards()){
-                setParent();
+//        if(terminalNode){
+//            alphaBeta = eval;
+//            if(pushUpwards()){
+//                setParent();
+//            }
+//        }
+    }
+
+    private int evaluationFunction3() {
+        int i,j;
+        for (i=0; i<7; i++){
+            for(j=0; j<6; j++){
+                if(state[i][j]==0) break;
             }
+
+
         }
+        return 0;
     }
 
     private int evaluateBasedOnChild(){
@@ -116,18 +129,19 @@ public class Node {
         return childEval;
     }
 
-    private static final int[][] evaluationTable = {
-            {3, 4,  5,  5,  4,  3},
-            {4, 6,  8,  8,  6,  4},
-            {5, 8,  11, 11, 8,  5},
-            {7, 10, 13, 13, 10, 7},
-            {5, 8,  11, 11, 8,  5},
-            {4, 6,  8,  8,  6,  4},
-            {3, 4,  5,  5,  4,  3}
-    };
 
-    //here is where the evaluation table is called
-    public int evaluateContent() {
+
+    public int evaluationFunction2() {
+        final int[][] evaluationTable = {
+                {3, 4,  5,  5,  4,  3},
+                {4, 6,  8,  8,  6,  4},
+                {5, 8,  11, 11, 8,  5},
+                {7, 10, 13, 13, 10, 7},
+                {5, 8,  11, 11, 8,  5},
+                {4, 6,  8,  8,  6,  4},
+                {3, 4,  5,  5,  4,  3}
+        };
+
         int center = 138;
         int sum = 0;
         for (int i = 0; i < state.length; i++)
