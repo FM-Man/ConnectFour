@@ -1,11 +1,15 @@
 package Game;
 
+import com.sun.glass.ui.Screen;
+import sun.plugin2.message.Message;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class FrameGenerator {
     private static AI ai;
     private static final Column[] columns = new Column[7];
+    private static JFrame frame;
 
     public static void main(String[] args) throws Exception {
         for (int i =0; i<columns.length;i++){
@@ -79,7 +83,7 @@ public class FrameGenerator {
         }
         boardPanel.setBounds(0,0,700,600);
 
-        JFrame frame = new JFrame("Connect Four");
+        frame = new JFrame("Connect Four");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 //        Panel titlePanel = new Panel();
@@ -90,8 +94,26 @@ public class FrameGenerator {
 //        titlePanel.setBounds(0,0,700,100);
 //
 //        frame.add(titlePanel);
-        frame.add(boardPanel);
 
+//        JPanel winningPanel = new JPanel();
+//        winningPanel.setLayout(null);
+//        winningPanel.setSize(700,600);
+//        winningPanel.setBounds(0,0,700,600);
+//        String winingMsg = Game.getInstance().checkWinner()==1?
+//                "AI Won" :
+//                Game.getInstance().checkWinner()==-1?
+//                        "Human Won":
+//                        "Match Drawn";
+//        JLabel winLabel = new JLabel(winingMsg);
+//        winLabel.setLocation(100,100);
+//        winLabel.setBounds(250,200,200,100);
+//        winLabel.setFont(new Font("Arial",4,30));
+//        winningPanel.add(winLabel);
+//        winningPanel.setVisible(false);
+//
+//        frame.add(winningPanel);
+        frame.add(boardPanel);
+        frame.setLocation(300,50);
         frame.pack();
         frame.setVisible(true);
     }
@@ -102,6 +124,31 @@ public class FrameGenerator {
 
     public static boolean hasAI(){
         return ai!=null;
+    }
+
+    public static void winningMessageShower(){
+        JPanel winningPanel = new JPanel();
+        winningPanel.setLayout(null);
+        winningPanel.setSize(700,600);
+        winningPanel.setBounds(0,0,700,600);
+        String winingMsg = Game.getInstance().checkWinner()==1?
+                "AI Won" :
+                Game.getInstance().checkWinner()==-1?
+                        "Human Won":
+                        "Match Drawn";
+        JLabel winLabel = new JLabel(winingMsg);
+        winLabel.setLocation(100,100);
+        winLabel.setBounds(250,200,200,100);
+        winLabel.setFont(new Font("Arial",4,30));
+        winningPanel.add(winLabel);
+        winningPanel.setVisible(true);
+
+        frame.add(winningPanel);
+//        frame.getComponent(1).setVisible(true);
+    }
+
+    public static JFrame getFrame(){
+        return frame;
     }
 
 }

@@ -1,5 +1,7 @@
 package Game;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 
 public class Game {
@@ -37,8 +39,10 @@ public class Game {
                 clickUnlocked = true;
                 FrameGenerator.columns()[a].aiClick();
             }
-            if(!playable())
+            if(!playable()) {
+//                FrameGenerator.winningMessageShower();
                 return;
+            }
         }
     }
 
@@ -51,7 +55,21 @@ public class Game {
             FrameGenerator.columns()[i].drawColumn(board[i]);
         }
         if (checkWinner() != 0) {
-            System.out.println("player "+checkWinner()+ " winner");
+            if(checkWinner() ==1) {
+                JOptionPane.showMessageDialog(null, "AI Won");
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Human Won");
+            }
+//            System.out.println((
+//                checkWinner() ==-1 ?
+//                    "Human Won":
+//                    (
+//                        checkWinner() ==1?
+//                            "AI Won":
+//                            "Match Drawn"
+//                    )
+//            ));
             turn = 0;
         }
     }
@@ -109,7 +127,7 @@ public class Game {
             }
         }
 
-        print(board);
+//        print(board);
 //        if(FrameGenerator.hasAI())
 //            flipClick();
     }

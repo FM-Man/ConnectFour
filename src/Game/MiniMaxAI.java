@@ -23,10 +23,10 @@ public class MiniMaxAI extends AI{
         else way = root.getDifference(bestChild);
 
 
-        System.out.println(nodeCount+" node created\n");
+//        System.out.println(nodeCount+" node created\n");
 
         if(way<7 && way>=0){
-            System.out.println(way);
+//            System.out.println(way);
             FileWriter wr = new FileWriter(new File("output.txt"));
             wr.write(root.toString());
             wr.close();
