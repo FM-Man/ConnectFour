@@ -5,6 +5,7 @@ import java.io.FileWriter;
 
 public class MiniMaxAI extends AI{
     public static int nodeCount =0;
+
     @Override
     int play(int[][] boardState) throws Exception {
         nodeCount = 0;
@@ -27,9 +28,9 @@ public class MiniMaxAI extends AI{
 
         if(way<7 && way>=0){
 //            System.out.println(way);
-            FileWriter wr = new FileWriter(new File("output.txt"));
-            wr.write(root.toString());
-            wr.close();
+//            FileWriter wr = new FileWriter(new File("output.txt"));
+//            wr.write(root.toString());
+//            wr.close();
 //            System.out.println(root);
             return way;
         }

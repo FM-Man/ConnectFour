@@ -1,7 +1,5 @@
 package Game;
 
-import com.sun.glass.ui.Screen;
-import sun.plugin2.message.Message;
 
 import javax.swing.*;
 import java.awt.*;

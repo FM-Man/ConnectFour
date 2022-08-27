@@ -21,7 +21,7 @@ public class Node {
         this.parent = parent;
         this.level= level;
 
-        /*********************************************/
+        /*********************ab************************/
         if(type.equals(NodeType.MAX))
             alphaBeta = Integer.MIN_VALUE;
         else alphaBeta = Integer.MAX_VALUE;
@@ -78,7 +78,7 @@ public class Node {
                         Node n = new Node(temp,newType,this, level-1);
                         children.add(n);
 
-                        /**************start****************/
+                        /**************ab****************/
                         if(parent!=null)
                             if(parent.parent!=null)
                                 if (!pushUpwards())
@@ -89,13 +89,13 @@ public class Node {
                 }
                 eval= evaluateBasedOnChild();
                 tempParentAlphaBeta = eval;
-                /***********************************/
+                /******************ab*****************/
                 setParent();
                 /*********************************/
             }
         }
 
-        /**************************************/
+        /*******************ab*******************/
         if(terminalNode){
             alphaBeta = eval;
             if(pushUpwards()){
@@ -374,7 +374,7 @@ public class Node {
 
 
 
-
+    /***************************ab******************************/
     private boolean pushUpwards(){
         if(type.equals(NodeType.MAX)){
             if(alphaBeta<= tempParentAlphaBeta){
@@ -405,4 +405,5 @@ public class Node {
             }
         }
     }
+    /*************************************************************/
 }
