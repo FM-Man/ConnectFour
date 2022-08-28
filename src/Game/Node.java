@@ -42,12 +42,12 @@ public class Node {
                 break;
         }
         if(terminalNode) {
-            eval = checkWinner()*2000*(level+1)/2;
+            eval = checkWinner()*20000*(level+1)/2;
         }
         else{
             if(checkWinner()!=0){
                 terminalNode = true;
-                eval = checkWinner()*2000*(level+1)/2;
+                eval = checkWinner()*20000*(level+1)/2;
             }
             else if(level==0){
                 terminalNode = true;
@@ -88,8 +88,8 @@ public class Node {
                     }
                 }
                 eval= evaluateBasedOnChild();
-                tempParentAlphaBeta = eval;
                 /******************ab*****************/
+                tempParentAlphaBeta = eval;
                 setParent();
                 /*********************************/
             }

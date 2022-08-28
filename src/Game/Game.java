@@ -31,11 +31,12 @@ public class Game {
     }
 
     private Game(AI ai) throws Exception {
+        this.ai =ai;
         while (true){
             System.out.print("");
             if(!clickUnlocked && turn!=0) {
                 System.out.print("");
-                int a = ai.play(board);
+                int a = this.ai.play(board);
                 clickUnlocked = true;
                 FrameGenerator.columns()[a].aiClick();
             }
@@ -55,12 +56,28 @@ public class Game {
             FrameGenerator.columns()[i].drawColumn(board[i]);
         }
         if (checkWinner() != 0) {
-            if(checkWinner() ==1) {
-                JOptionPane.showMessageDialog(null, "AI Won");
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Human Won");
-            }
+
+//            System.out.println(ai.toString());
+
+//            if(ai != null){
+//                if (checkWinner() == 1) {
+//                    JOptionPane.showMessageDialog(null, "AI Won");
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "Human Won");
+//                }
+//            }
+//            else {
+                if (checkWinner() == 1) {
+                    JOptionPane.showMessageDialog(null, "Red Won");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Yellow Won");
+                }
+//            }
+
+
+
+
+
 //            System.out.println((
 //                checkWinner() ==-1 ?
 //                    "Human Won":

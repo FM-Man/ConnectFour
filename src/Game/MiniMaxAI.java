@@ -1,15 +1,12 @@
 package Game;
 
-import java.io.File;
-import java.io.FileWriter;
-
 public class MiniMaxAI extends AI{
     public static int nodeCount =0;
 
     @Override
     int play(int[][] boardState) throws Exception {
         nodeCount = 0;
-        Node root = new Node(Game.getInstance().clone(boardState),NodeType.MAX, null,6);
+        Node root = new Node(Game.getInstance().clone(boardState),NodeType.MAX, null,10);
 
         Node bestChild = null;
         for (Node c: root.children){
@@ -24,7 +21,7 @@ public class MiniMaxAI extends AI{
         else way = root.getDifference(bestChild);
 
 
-//        System.out.println(nodeCount+" node created\n");
+        System.out.println(nodeCount+" node created\n");
 
         if(way<7 && way>=0){
 //            System.out.println(way);
@@ -32,6 +29,9 @@ public class MiniMaxAI extends AI{
 //            wr.write(root.toString());
 //            wr.close();
 //            System.out.println(root);
+
+
+//            Thread.sleep(1000);
             return way;
         }
         else throw new Exception("AI baire dite chay");
